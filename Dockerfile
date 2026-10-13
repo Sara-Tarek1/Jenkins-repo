@@ -1,6 +1,6 @@
 # Use an official lightweight Python image
-FROM python:3.12-slim 
- 
+FROM python:3.12-slim
+
 # Set the working directory
 WORKDIR /app
 
@@ -14,5 +14,5 @@ COPY . .
 # Expose Flask default port
 EXPOSE 5000
 
-# Run the app
-CMD ["python", "hello.py"]
+# Run the app with a production WSGI server
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "hello:app"]

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-hello-nti
+  labels:
+    app: app-hello-nti
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-hello-nti
+  template:
+    metadata:
+      labels:
+        app: app-hello-nti
+    spec:
+      containers:
+        - name: app-hello-nti
+          # Tag is overwritten by Jenkins using `kubectl set image`
+          image: app-hello-nti:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi

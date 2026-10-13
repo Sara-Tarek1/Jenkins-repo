@@ -1,0 +1,11 @@
+.git
+.gitignore
+Jenkinsfile
+*.pdf
+*.txt.bak
+README.md
+K8s/
+__pycache__/
+*.pyc
+.venv/
+venv/
